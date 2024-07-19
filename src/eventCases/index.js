@@ -1,3 +1,4 @@
+import createBoard from "../playing/createBoard.js";
 import { signUpGame } from "../playing/signUpGame.js";
 
 function eventHandle(socket) {
@@ -8,6 +9,9 @@ function eventHandle(socket) {
     switch (eventName) {
       case "SIGNUP":
         signUpGame(data, socket);
+        break;
+      case "CREATE_BOARD":
+        createBoard(data, socket);
         break;
     }
   });

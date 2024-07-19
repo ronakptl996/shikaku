@@ -20,4 +20,4 @@ class Events {
   }
 }
 
-export default new Events();
+export default Events = new Events();

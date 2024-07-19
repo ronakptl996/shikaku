@@ -1,3 +1,4 @@
+// CANVAS
 var squareId = 1;
 var grid = [];
 grid.squares = [];
@@ -15,13 +16,13 @@ while (!isFull(grid) && i++ < 1000) {
   }
 }
 
-drawCanvas();
-
 function drawCanvas() {
   var canvas = $("#canvas");
   var context = canvas.get(0).getContext("2d");
   updateCanvas(context);
   $(".gameWrapperInner").append(canvas);
+  console.log({ grid });
+  socket.emit("CREATE_BOARD", { board: grid.squares });
 }
 
 function updateCanvas(context) {

@@ -13,6 +13,7 @@ const tableSchema = Schema({
   },
   startTime: { type: Date, required: true },
   endTime: { type: Date, default: null },
+  boardId: { type: Schema.Types.ObjectId, ref: "Board" },
 });
 
-export const Table = mongoose.model("table", tableSchema);
+export const Table = mongoose.model("Table", tableSchema);
