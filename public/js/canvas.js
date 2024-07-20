@@ -69,6 +69,8 @@ $("#canvas").on("mousedown", function (e) {
   var newlen = draggedSquares.push(square);
   dragContext = { index: newlen - 1 };
   $("#canvas").on("mousemove", drag);
+
+  console.log({ square });
 });
 
 $("#canvas").on("mouseup", function (e) {
@@ -94,21 +96,6 @@ function getColor(value) {
   }
   return hex;
 }
-
-// function drawTable() {
-//   var table = $("<table></table>");
-//   for (var x = 0; x < 5; x++) {
-//     var tr = $("<tr></tr>");
-//     for (var y = 0; y < 5; y++) {
-//       var td = $("<td></td>");
-//       td.text(grid[x][y]);
-//       td.addClass("n" + grid[x][y]);
-//       tr.append(td);
-//     }
-//     table.append(tr);
-//   }
-//   $("body").append(table);
-// }
 
 function isFull(grid) {
   for (var x = 0; x < 5; x++) {
@@ -172,6 +159,9 @@ function addGridRect(grid, rect, squareId) {
       grid[x + rect.x][y + rect.y] = square;
     }
   }
+  grid.squares.forEach((square) => {
+    square.selected = false;
+  });
 }
 
 function expandRect(grid, rect) {
@@ -259,3 +249,57 @@ function shuffle(o) {
   );
   return o;
 }
+
+// Function to check if all squares are filled
+function areAllSquaresSelected() {
+  const gridSquares = grid.squares;
+  console.log({ gridSquares, draggedSquares });
+  if (gridSquares.length === draggedSquares.length) {
+    let totalSum = 0;
+    console.log({ totalSum });
+    for (let i = 0; i < gridSquares.length; i++) {
+      const gridSquarePos = gridSquares[i].pos;
+      console.log({ gridSquarePos });
+
+      for (let i = 0; i < draggedSquares.length; i++) {
+        const selectedSquare = draggedSquares[i];
+
+        if (
+          gridSquarePos.width === selectedSquare.width &&
+          gridSquarePos.height === selectedSquare.height
+        ) {
+          totalSum += gridSquarePos.width * gridSquarePos.height;
+        }
+      }
+    }
+    console.log({ totalSum });
+    if (totalSum === 25) {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+
+// // Add event listener to the submit button
+$("#submitBtn").click(function () {
+  //   console.log(areAllSquaresSelected());
+  if (areAllSquaresSelected()) {
+    // All squares are selected, handle submission
+    console.log("All squares selected, submit game!");
+    // Replace this with your actual game submission logic
+    // For example, send the grid data to a server
+  } else {
+    // Not all squares are selected, display an error message
+    alert("Invalid selection.");
+  }
+});
+
+// Clear All selected square
+function clearAllSelectedSquares() {
+  draggedSquares = [];
+  updateCanvas($("#canvas").get(0).getContext("2d"));
+}
+$("#clearButton").click(clearAllSelectedSquares);

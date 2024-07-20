@@ -13,6 +13,7 @@ const tableSchema = Schema({
   },
   startTime: { type: Date, required: true },
   endTime: { type: Date, default: null },
+  totalTime: { type: String, default: null },
   boardId: { type: Schema.Types.ObjectId, ref: "Board" },
 });
 

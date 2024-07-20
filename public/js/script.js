@@ -21,6 +21,16 @@ function resumeTimer() {
   isPaused = false;
 }
 
+$("#timerChangeBtn").click(function () {
+  isPaused = !isPaused;
+
+  if (isPaused) {
+    document.getElementById("timerChangeBtn").innerText = "Resume";
+  } else {
+    document.getElementById("timerChangeBtn").innerText = "Pause";
+  }
+});
+
 function startTimer() {
   let timer = 0;
   timerInterval = setInterval(() => {
