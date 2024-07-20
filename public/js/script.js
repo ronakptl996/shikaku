@@ -3,15 +3,38 @@ let socket = io();
 let playerName;
 let timerId;
 let isPaused = false;
+let selectedDimension = null;
 
 document.getElementById("startbtn").addEventListener("click", () => {
+  if (!selectedDimension) {
+    alert("Please select the dimension");
+    return;
+  }
   do {
     playerName = prompt("Enter your name :");
-    socket.emit("SIGNUP", { playerName, time: Date.now() });
+    socket.emit("SIGNUP", { playerName, time: Date.now(), selectedDimension });
   } while (!playerName);
 });
 
 eventHandler(socket);
+
+const dimensionButtons = document.querySelectorAll(".dimension-button");
+
+dimensionButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    dimensionButtons.forEach((btn) => btn.classList.remove("selected"));
+
+    button.classList.add("selected");
+    selectedDimension = button.dataset.dimension;
+    document.getElementById("startbtn").disabled = false;
+  });
+});
+
+// Find the 5x5 button and simulate a click
+const defaultDimensionButton = document.querySelector(
+  '.dimension-button[data-dimension="5x5"]'
+);
+defaultDimensionButton.click();
 
 $("#timerChangeBtn").click(function () {
   isPaused = !isPaused;

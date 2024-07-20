@@ -12,11 +12,18 @@
     <section>
         <section class="alertBox"></section>
         <section class="gameWrapper">
-            <button type="submit" name="btn" id="startbtn">Start Game</button>
+            <section class="intialState">
+                <button type="submit" name="btn" id="startbtn" disabled>Start Game</button>
+                <div>
+                    <button class="dimension-button" data-dimension="5x5">5x5</button>
+                    <button class="dimension-button" data-dimension="7x7">7x7</button>
+                    <button class="dimension-button" data-dimension="10x10">10x10</button>
+                </div>
+            </section>
             <h1 id="timer"></h1>
             <section class="gameWrapperInner">
                 <section class="gameCanvas">
-                    <canvas id="canvas" height="301"></canvas>
+                    <canvas id="canvas" height="1000" width="1000"></canvas>
                 </section>
                 <section class="btn">
                     <button id="submitBtn">Submit</button>

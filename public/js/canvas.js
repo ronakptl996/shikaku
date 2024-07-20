@@ -1,35 +1,42 @@
 // CANVAS
 var squareId = 1;
 var grid = [];
+let dimension = null;
 grid.squares = [];
-for (var x = 0; x < 5; x++) {
-  grid[x] = [];
-}
 
 var draggedSquares = [];
 console.log({ grid });
-var i = 0;
-while (!isFull(grid) && i++ < 1000) {
-  sq = addSquare(grid);
-  if (!sq) {
-    removeSquare(grid);
-  }
-}
 
 function drawCanvas(data) {
+  console.log("draw canvas >>", data);
+  dimension = parseInt(data.dimension);
+  console.log({ dimension });
   localStorage.setItem("tableId", data.tableId);
+
+  for (var x = 0; x < dimension; x++) {
+    grid[x] = [];
+  }
+
+  var i = 0;
+  while (!isFull(grid) && i++ < 1000) {
+    let sq = addSquare(grid);
+    if (!sq) {
+      removeSquare(grid);
+    }
+  }
+
   var canvas = $("#canvas");
   var context = canvas.get(0).getContext("2d");
-  updateCanvas(context);
+  updateCanvas(context, dimension);
   $(".gameCanvas").append(canvas);
   console.log({ grid });
   socket.emit("CREATE_BOARD", { board: grid.squares });
 }
 
-function updateCanvas(context) {
+function updateCanvas(context, dimension) {
   // clear canvas
   context.fillStyle = "white";
-  context.fillRect(0, 0, 250, 250);
+  context.fillRect(0, 0, dimension * 50, dimension * 50);
 
   // user dragged squares
   for (var i = 0; i < draggedSquares.length; i++) {
@@ -44,10 +51,9 @@ function updateCanvas(context) {
   }
 
   // grid
-  for (var x = 0; x < 5; x++) {
-    for (var y = 0; y < 5; y++) {
+  for (var x = 0; x < dimension; x++) {
+    for (var y = 0; y < dimension; y++) {
       context.strokeRect(0.5 + x * 50, 0.5 + y * 50, 50, 50);
-      var value = grid[x][y];
     }
   }
 
@@ -86,7 +92,7 @@ function drag(e) {
   square.width = x - square.x;
   square.height = y - square.y;
   var context = this.getContext("2d");
-  updateCanvas(context);
+  updateCanvas(context, dimension);
 }
 
 function getColor(value) {
@@ -99,8 +105,8 @@ function getColor(value) {
 }
 
 function isFull(grid) {
-  for (var x = 0; x < 5; x++) {
-    for (var y = 0; y < 5; y++) {
+  for (var x = 0; x < dimension; x++) {
+    for (var y = 0; y < dimension; y++) {
       if (!grid[x][y]) {
         return false;
       }
@@ -111,8 +117,8 @@ function isFull(grid) {
 
 function addSquare(grid) {
   do {
-    var x = Math.floor(Math.random() * 5);
-    var y = Math.floor(Math.random() * 5);
+    var x = Math.floor(Math.random() * dimension);
+    var y = Math.floor(Math.random() * dimension);
   } while (grid[x][y]);
 
   var rect = { x: x, y: y, width: 1, height: 1 };
@@ -273,10 +279,21 @@ function areAllSquaresSelected() {
       }
     }
 
-    if (totalSum === 25) {
+    console.log({ totalSum });
+    if (totalSum === dimension * dimension) {
       return true;
     } else {
-      return false;
+      totalSum = 0;
+      for (let i = 0; i < draggedSquares.length; i++) {
+        const selectedSquare = draggedSquares[i];
+        totalSum += selectedSquare.width * selectedSquare.height;
+      }
+
+      if (totalSum === dimension * dimension) {
+        return true;
+      } else {
+        return false;
+      }
     }
   } else {
     return false;
@@ -303,6 +320,6 @@ $("#submitBtn").click(function () {
 // Clear All selected square
 function clearAllSelectedSquares() {
   draggedSquares = [];
-  updateCanvas($("#canvas").get(0).getContext("2d"));
+  updateCanvas($("#canvas").get(0).getContext("2d"), dimension);
 }
 $("#clearButton").click(clearAllSelectedSquares);

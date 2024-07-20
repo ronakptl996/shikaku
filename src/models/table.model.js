@@ -11,6 +11,7 @@ const tableSchema = Schema({
     type: String,
     required: true,
   },
+  dimension: { type: String, required: true },
   startTime: { type: Date, required: true },
   endTime: { type: Date, default: null },
   totalTime: { type: String, default: null },

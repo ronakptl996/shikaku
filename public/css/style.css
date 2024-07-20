@@ -4,6 +4,16 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+.dimension-button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: green;
+}
+
 .gameWrapper {
   display: grid;
   place-items: center;

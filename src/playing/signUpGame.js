@@ -10,6 +10,7 @@ const signUpGame = async (signUpData, socket) => {
       status: "Running",
       socketId: socket.id,
       startTime: signUpData.time,
+      dimension: signUpData.selectedDimension,
     });
 
     // if(!tableData) {
@@ -24,6 +25,7 @@ const signUpGame = async (signUpData, socket) => {
       data: {
         tableId: tableData._id,
         username: tableData.username,
+        dimension: tableData.dimension,
       },
     };
     Events.sendToRoom(tableData._id, roomData);
