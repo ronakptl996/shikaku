@@ -13,14 +13,6 @@ document.getElementById("startbtn").addEventListener("click", () => {
 
 eventHandler(socket);
 
-function pauseTimer() {
-  isPaused = true;
-}
-
-function resumeTimer() {
-  isPaused = false;
-}
-
 $("#timerChangeBtn").click(function () {
   isPaused = !isPaused;
 
@@ -59,12 +51,25 @@ function formatTime(seconds) {
 }
 
 function startGame(data) {
+  document.querySelector(".gameWrapperInner").style.display = "block";
   document.querySelector("#startbtn").style.display = "none";
   document.querySelector(".alertBox").innerHTML = "GAME STARTED";
+  localStorage.setItem("boardId", data.boardId);
   startTimer();
   setTimeout(() => {
     document.querySelector(".alertBox").innerHTML = "";
   }, 4000);
+}
+
+function winnerHandler(data) {
+  clearInterval(timerInterval);
+  console.log({ winnerData: data });
+  let poUp = `<div class="win-alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+    <strong>${data.message}
+    </div>`;
+  const winPopup = document.querySelector(".alertBox");
+  winPopup.innerHTML = poUp;
 }
 
 function eventHandler(socket) {
@@ -74,12 +79,16 @@ function eventHandler(socket) {
       case "JOIN":
         console.log("joinGame evenHandler data", data);
         // joinGame(data.data);
-        drawCanvas();
+        drawCanvas(data.data);
         break;
 
       case "START_GAME":
         console.log("game started event called..", data);
         startGame(data.data);
+        break;
+
+      case "WINNER":
+        winnerHandler(data.data);
         break;
     }
   });

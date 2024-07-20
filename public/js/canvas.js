@@ -16,7 +16,8 @@ while (!isFull(grid) && i++ < 1000) {
   }
 }
 
-function drawCanvas() {
+function drawCanvas(data) {
+  localStorage.setItem("tableId", data.tableId);
   var canvas = $("#canvas");
   var context = canvas.get(0).getContext("2d");
   updateCanvas(context);
@@ -283,14 +284,17 @@ function areAllSquaresSelected() {
   }
 }
 
-// // Add event listener to the submit button
+// Add event listener to the submit button
 $("#submitBtn").click(function () {
   //   console.log(areAllSquaresSelected());
   if (areAllSquaresSelected()) {
     // All squares are selected, handle submission
     console.log("All squares selected, submit game!");
-    // Replace this with your actual game submission logic
-    // For example, send the grid data to a server
+    const tableId = localStorage.getItem("tableId");
+    const boardId = localStorage.getItem("boardId");
+    const totalTime = document.querySelector("#timer").innerText;
+    console.log({ tableId, boardId, totalTime });
+    socket.emit("SUBMIT", { tableId, boardId, totalTime });
   } else {
     // Not all squares are selected, display an error message
     alert("Invalid selection.");

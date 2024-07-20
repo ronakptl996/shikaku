@@ -32,4 +32,4 @@ const signUpGame = async (signUpData, socket) => {
   }
 };
 
-export { signUpGame };
+export default signUpGame;
