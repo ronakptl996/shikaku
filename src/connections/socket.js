@@ -1,5 +1,6 @@
 import { io } from "../index.js";
 import eventHandler from "../eventCases/index.js";
+import userDisconnect from "../playing/userDisconnect.js";
 
 const socketConnection = async () => {
   try {
@@ -8,7 +9,7 @@ const socketConnection = async () => {
       eventHandler(socket);
       socket.on("disconnect", (error) => {
         console.log(`Socket disconnected ${error}`);
-        // userDisconnect(socket);
+        userDisconnect(socket);
       });
     });
   } catch (error) {
