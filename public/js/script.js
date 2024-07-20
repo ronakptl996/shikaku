@@ -53,7 +53,12 @@ function formatTime(seconds) {
 function startGame(data) {
   document.querySelector(".gameWrapperInner").style.display = "block";
   document.querySelector("#startbtn").style.display = "none";
-  document.querySelector(".alertBox").innerHTML = "GAME STARTED";
+  const poUp = `<div class="win-alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+    <strong>Game Started!
+    </div>`;
+  const winPopup = document.querySelector(".alertBox");
+  winPopup.innerHTML = poUp;
   localStorage.setItem("boardId", data.boardId);
   startTimer();
   setTimeout(() => {
@@ -70,6 +75,12 @@ function winnerHandler(data) {
     </div>`;
   const winPopup = document.querySelector(".alertBox");
   winPopup.innerHTML = poUp;
+
+  setTimeout(() => {
+    location.reload();
+    localStorage.removeItem("tableId");
+    localStorage.removeItem("boardId");
+  }, 5000);
 }
 
 function eventHandler(socket) {

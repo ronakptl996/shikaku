@@ -14,7 +14,6 @@ function eventHandle(socket) {
       case "CREATE_BOARD":
         createBoard(data, socket);
         break;
-
       case "SUBMIT":
         submitHandler(data, socket);
         break;

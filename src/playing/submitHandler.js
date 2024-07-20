@@ -11,6 +11,7 @@ const submitHandler = async (data, socket) => {
     if (tableData && tableData.boardId.toString() === data.boardId) {
       tableData.endTime = Date.now();
       tableData.totalTime = data.totalTime;
+      tableData.status = "Completed";
 
       await tableData.save();
 

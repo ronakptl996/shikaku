@@ -21,7 +21,7 @@ function drawCanvas(data) {
   var canvas = $("#canvas");
   var context = canvas.get(0).getContext("2d");
   updateCanvas(context);
-  $(".gameWrapperInner").append(canvas);
+  $(".gameCanvas").append(canvas);
   console.log({ grid });
   socket.emit("CREATE_BOARD", { board: grid.squares });
 }
@@ -257,7 +257,6 @@ function areAllSquaresSelected() {
   console.log({ gridSquares, draggedSquares });
   if (gridSquares.length === draggedSquares.length) {
     let totalSum = 0;
-    console.log({ totalSum });
     for (let i = 0; i < gridSquares.length; i++) {
       const gridSquarePos = gridSquares[i].pos;
       console.log({ gridSquarePos });
@@ -273,7 +272,7 @@ function areAllSquaresSelected() {
         }
       }
     }
-    console.log({ totalSum });
+
     if (totalSum === 25) {
       return true;
     } else {
@@ -297,7 +296,7 @@ $("#submitBtn").click(function () {
     socket.emit("SUBMIT", { tableId, boardId, totalTime });
   } else {
     // Not all squares are selected, display an error message
-    alert("Invalid selection.");
+    alert("Invalid selection!");
   }
 });
 
