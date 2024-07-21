@@ -78,12 +78,19 @@ function canvasMouseDown(e) {
   if (!isPaused) {
     var x = Math.floor(e.offsetX / 50);
     var y = Math.floor(e.offsetY / 50);
-    var square = { x: x, y: y };
-    var newlen = draggedSquares.push(square);
-    dragContext = { index: newlen - 1 };
-    $("#canvas").on("mousemove", drag);
 
-    console.log({ square });
+    const isAlreadySelected = draggedSquares.some(
+      (square) => square.x === x && square.y === y
+    );
+
+    if (!isAlreadySelected) {
+      var square = { x: x, y: y, width: 1, height: 1 };
+      draggedSquares.push(square);
+      dragContext = { index: draggedSquares.length - 1 };
+      $("#canvas").on("mousemove", drag);
+
+      console.log({ square });
+    }
   }
 }
 
