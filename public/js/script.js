@@ -36,13 +36,26 @@ const defaultDimensionButton = document.querySelector(
 );
 defaultDimensionButton.click();
 
+$("#resetBtn").click(function () {
+  localStorage.removeItem("tableId");
+  localStorage.removeItem("boardId");
+  location.reload();
+});
+
 $("#timerChangeBtn").click(function () {
   isPaused = !isPaused;
+  document.getElementById("timerChangeBtn").innerText = isPaused
+    ? "Resume"
+    : "Pause";
 
   if (isPaused) {
-    document.getElementById("timerChangeBtn").innerText = "Resume";
+    $("#canvas").off("mousedown");
+    $("#canvas").off("mouseup");
+    $("#submitBtn").attr("disabled", true);
   } else {
-    document.getElementById("timerChangeBtn").innerText = "Pause";
+    $("#canvas").on("mousedown", canvasMouseDown);
+    $("#canvas").on("mouseup", canvasMouseUp);
+    $("#submitBtn").attr("disabled", false);
   }
 });
 
@@ -75,7 +88,7 @@ function formatTime(seconds) {
 
 function startGame(data) {
   document.querySelector(".gameWrapperInner").style.display = "block";
-  document.querySelector("#startbtn").style.display = "none";
+  document.querySelector(".intialState").style.display = "none";
   const poUp = `<div class="win-alert">
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
     <strong>Game Started!
@@ -112,7 +125,6 @@ function eventHandler(socket) {
     switch (eventName) {
       case "JOIN":
         console.log("joinGame evenHandler data", data);
-        // joinGame(data.data);
         drawCanvas(data.data);
         break;
 

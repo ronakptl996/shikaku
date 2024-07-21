@@ -25,8 +25,13 @@ function drawCanvas(data) {
     }
   }
 
-  var canvas = $("#canvas");
-  var context = canvas.get(0).getContext("2d");
+  var canvas = $("#canvas").get(0);
+
+  canvas.width = dimension * 50;
+  canvas.height = dimension * 50;
+
+  var context = canvas.getContext("2d");
+
   updateCanvas(context, dimension);
   $(".gameCanvas").append(canvas);
   console.log({ grid });
@@ -69,21 +74,28 @@ function updateCanvas(context, dimension) {
 }
 
 var dragContext = null;
-$("#canvas").on("mousedown", function (e) {
-  var x = Math.floor(e.offsetX / 50);
-  var y = Math.floor(e.offsetY / 50);
-  var square = { x: x, y: y };
-  var newlen = draggedSquares.push(square);
-  dragContext = { index: newlen - 1 };
-  $("#canvas").on("mousemove", drag);
+function canvasMouseDown(e) {
+  if (!isPaused) {
+    var x = Math.floor(e.offsetX / 50);
+    var y = Math.floor(e.offsetY / 50);
+    var square = { x: x, y: y };
+    var newlen = draggedSquares.push(square);
+    dragContext = { index: newlen - 1 };
+    $("#canvas").on("mousemove", drag);
 
-  console.log({ square });
-});
+    console.log({ square });
+  }
+}
 
-$("#canvas").on("mouseup", function (e) {
-  dragContext = null;
-  $(this).off("mousemove");
-});
+function canvasMouseUp(e) {
+  if (!isPaused) {
+    dragContext = null;
+    $(this).off("mousemove");
+  }
+}
+
+$("#canvas").on("mousedown", canvasMouseDown);
+$("#canvas").on("mouseup", canvasMouseUp);
 
 function drag(e) {
   var square = draggedSquares[dragContext.index];

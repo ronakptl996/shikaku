@@ -14,7 +14,7 @@
         <section class="gameWrapper">
             <section class="intialState">
                 <button type="submit" name="btn" id="startbtn" disabled>Start Game</button>
-                <div>
+                <div class="dimension-buttons-wrapper">
                     <button class="dimension-button" data-dimension="5x5">5x5</button>
                     <button class="dimension-button" data-dimension="7x7">7x7</button>
                     <button class="dimension-button" data-dimension="10x10">10x10</button>
@@ -23,12 +23,13 @@
             <h1 id="timer"></h1>
             <section class="gameWrapperInner">
                 <section class="gameCanvas">
-                    <canvas id="canvas" height="1000" width="1000"></canvas>
+                    <canvas id="canvas"></canvas>
                 </section>
-                <section class="btn">
+                <section class="btn-wrapper">
                     <button id="submitBtn">Submit</button>
-                    <button id="clearButton">Clear All</button>
                     <button id="timerChangeBtn">Pause</button>
+                    <button id="clearButton">Clear All</button>
+                    <button id="resetBtn">Reset</button>
                 </section>
             </section>
         </section>
@@ -36,8 +37,8 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="js/script.js"></script>
     <script src="js/canvas.js"></script>
+    <script src="js/script.js"></script>
 </body>
 
 </html>

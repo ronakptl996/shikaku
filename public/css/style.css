@@ -4,14 +4,27 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+.intialState {
+  display: grid;
+  place-items: center;
+}
+
+.dimension-buttons-wrapper {
+  padding: 10px;
+  margin-top: 20px;
+}
+
 .dimension-button {
   margin: 0 10px;
   padding: 10px 20px;
   cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  width: 80px;
 }
 
 .selected {
-  background-color: green;
+  background-color: #1c961c;
 }
 
 .gameWrapper {
@@ -29,14 +42,14 @@ body {
   cursor: pointer;
 }
 
-.gameWrapperInner canvas {
+.gameWrapperInner .gameCanvas {
   display: grid;
   place-items: center;
 }
 
 .alertBox {
   width: 100%;
-  height: 200px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,10 +95,21 @@ body {
   display: none;
 }
 
-.btn button {
-  padding: 10px 15px;
-  margin-left: 5px;
+.btn-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.btn-wrapper button {
+  padding: 8px 15px;
+  margin: 5px 10px;
   border: none;
-  border-radius: 2px;
+  border-radius: 5px;
   cursor: pointer;
+}
+
+#submitBtn:disabled {
+  background: #7b7b7b;
+  cursor: not-allowed;
 }
