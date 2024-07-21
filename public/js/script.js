@@ -104,7 +104,6 @@ function startGame(data) {
 
 function winnerHandler(data) {
   clearInterval(timerInterval);
-  console.log({ winnerData: data });
   let poUp = `<div class="win-alert">
     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
     <strong>${data.message}
@@ -121,15 +120,12 @@ function winnerHandler(data) {
 
 function eventHandler(socket) {
   socket.onAny((eventName, data) => {
-    console.log({ eventName });
     switch (eventName) {
       case "JOIN":
-        console.log("joinGame evenHandler data", data);
         drawCanvas(data.data);
         break;
 
       case "START_GAME":
-        console.log("game started event called..", data);
         startGame(data.data);
         break;
 

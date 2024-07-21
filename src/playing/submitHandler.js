@@ -2,12 +2,9 @@ import { Table } from "../models/table.model.js";
 import Events from "../handleEmmiter/index.js";
 
 const submitHandler = async (data, socket) => {
-  console.log("TABLE ID >>", socket.tableId);
   try {
     const tableData = await Table.findById(data.tableId);
 
-    console.log({ tableData });
-    console.log(tableData && tableData.boardId.toString() === data.boardId);
     if (tableData && tableData.boardId.toString() === data.boardId) {
       tableData.endTime = Date.now();
       tableData.totalTime = data.totalTime;

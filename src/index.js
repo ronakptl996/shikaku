@@ -27,7 +27,6 @@ let io;
 
   app.get("/", (req, res) => {
     // res.sendFile(__dirname+'/public/index.html')
-    console.log(path.join(__dirname, "../public/index.html"));
     res.sendFile(path.join(__dirname, "../public/index.html"));
   });
 

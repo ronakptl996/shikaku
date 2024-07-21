@@ -3,8 +3,6 @@ import Events from "../handleEmmiter/index.js";
 
 const signUpGame = async (signUpData, socket) => {
   try {
-    console.log("signUpGame data :: >>", signUpData);
-
     const tableData = await Table.create({
       username: signUpData.playerName,
       status: "Running",
@@ -13,14 +11,14 @@ const signUpGame = async (signUpData, socket) => {
       dimension: signUpData.selectedDimension,
     });
 
-    // if(!tableData) {
-
-    // }
+    if (!tableData) {
+      throw new Error("Table not created!");
+    }
 
     socket.join(tableData._id);
     socket.tableId = tableData._id;
 
-    let roomData = {
+    const roomData = {
       eventName: "JOIN",
       data: {
         tableId: tableData._id,

@@ -5,12 +5,9 @@ let dimension = null;
 grid.squares = [];
 
 var draggedSquares = [];
-console.log({ grid });
 
 function drawCanvas(data) {
-  console.log("draw canvas >>", data);
   dimension = parseInt(data.dimension);
-  console.log({ dimension });
   localStorage.setItem("tableId", data.tableId);
 
   for (var x = 0; x < dimension; x++) {
@@ -34,7 +31,6 @@ function drawCanvas(data) {
 
   updateCanvas(context, dimension);
   $(".gameCanvas").append(canvas);
-  console.log({ grid });
   socket.emit("CREATE_BOARD", { board: grid.squares });
 }
 
@@ -88,8 +84,6 @@ function canvasMouseDown(e) {
       draggedSquares.push(square);
       dragContext = { index: draggedSquares.length - 1 };
       $("#canvas").on("mousemove", drag);
-
-      console.log({ square });
     }
   }
 }
@@ -158,7 +152,6 @@ function addSquare(grid) {
 }
 
 function removeSquare(grid) {
-  console.log("removeSquare");
 
   var squareIndex = Math.floor(grid.squares.length * Math.random());
   var square = grid.squares[squareIndex];
@@ -279,12 +272,10 @@ function shuffle(o) {
 // Function to check if all squares are filled
 function areAllSquaresSelected() {
   const gridSquares = grid.squares;
-  console.log({ gridSquares, draggedSquares });
   if (gridSquares.length === draggedSquares.length) {
     let totalSum = 0;
     for (let i = 0; i < gridSquares.length; i++) {
       const gridSquarePos = gridSquares[i].pos;
-      console.log({ gridSquarePos });
 
       for (let i = 0; i < draggedSquares.length; i++) {
         const selectedSquare = draggedSquares[i];
@@ -298,7 +289,6 @@ function areAllSquaresSelected() {
       }
     }
 
-    console.log({ totalSum });
     if (totalSum === dimension * dimension) {
       return true;
     } else {
@@ -321,14 +311,11 @@ function areAllSquaresSelected() {
 
 // Add event listener to the submit button
 $("#submitBtn").click(function () {
-  //   console.log(areAllSquaresSelected());
   if (areAllSquaresSelected()) {
     // All squares are selected, handle submission
-    console.log("All squares selected, submit game!");
     const tableId = localStorage.getItem("tableId");
     const boardId = localStorage.getItem("boardId");
     const totalTime = document.querySelector("#timer").innerText;
-    console.log({ tableId, boardId, totalTime });
     socket.emit("SUBMIT", { tableId, boardId, totalTime });
   } else {
     // Not all squares are selected, display an error message
